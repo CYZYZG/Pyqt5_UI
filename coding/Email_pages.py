@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'email_page.ui'
+# Form implementation generated from reading ui file 'Email_pages.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.2
 #
@@ -58,8 +58,8 @@ class Ui_Dialog(object):
         self.gridLayout.addWidget(self.label_5, 5, 0, 1, 1)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
-        self.buttonBox.rejected.connect(Dialog.reject)
+        # self.buttonBox.accepted.connect(Dialog.accept)
+        # self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

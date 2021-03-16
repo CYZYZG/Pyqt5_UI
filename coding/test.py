@@ -1,39 +1,49 @@
 import sys
-from PyQt5.QtCore import QTimer, Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QTextEdit, QPushButton, QMessageBox, QVBoxLayout
 
 
 class Demo(QWidget):
     def __init__(self):
         super(Demo, self).__init__()
-        self.label = QLabel('0', self)                          # 1
-        self.label.setAlignment(Qt.AlignCenter)
 
-        self.step = 0                                           # 2
+        self.is_saved = True                                            # 1
 
-        self.timer = QTimer(self)                               # 3
-        self.timer.timeout.connect(self.update_func)
+        self.textedit = QTextEdit(self)                                 # 2
+        self.textedit.textChanged.connect(self.on_textchanged_func)
 
-        self.ss_button = QPushButton('Start', self)             # 4
-        self.ss_button.clicked.connect(self.start_stop_func)
+        self.button = QPushButton('Save', self)                         # 3
+        self.button.clicked.connect(self.on_clicked_func)
 
         self.v_layout = QVBoxLayout()
-        self.v_layout.addWidget(self.label)
-        self.v_layout.addWidget(self.ss_button)
-
+        self.v_layout.addWidget(self.textedit)
+        self.v_layout.addWidget(self.button)
         self.setLayout(self.v_layout)
 
-    def start_stop_func(self):
-        if not self.timer.isActive():
-            self.ss_button.setText('Stop')
-            self.timer.start(100)
+    def on_textchanged_func(self):
+        if self.textedit.toPlainText():
+            self.is_saved = False
         else:
-            self.ss_button.setText('Start')
-            self.timer.stop()
+            self.is_saved = True
 
-    def update_func(self):
-        self.step += 1
-        self.label.setText(str(self.step))
+    def on_clicked_func(self):
+        self.save_func(self.textedit.toPlainText())
+        self.is_saved = True
+
+    def save_func(self, text):
+        with open('saved.txt', 'w') as f:
+            f.write(text)
+
+    def closeEvent(self, QCloseEvent):                                  # 4
+        if not self.is_saved:
+            choice = QMessageBox.question(self, '', 'Do you want to save the text?',
+                                          QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+            if choice == QMessageBox.Yes:
+                self.save_func(self.textedit.toPlainText())
+                QCloseEvent.accept()
+            elif choice == QMessageBox.No:
+                QCloseEvent.accept()
+            else:
+                QCloseEvent.ignore()
 
 
 if __name__ == '__main__':

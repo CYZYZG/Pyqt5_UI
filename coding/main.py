@@ -1,25 +1,24 @@
 # coding:utf-8
-import sys
-sys.path.append('../email_page.py')
+from Email_pages import Ui_Dialog
 from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QLabel, QLineEdit, QPushButton, \
     QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox
 from PyQt5 import QtCore,QtGui,QtWidgets
 import sys
 import qtawesome
-from email_page
-
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 USER_PWD = {
         'la_vie': 'password'
     }
 
-class MainUi(QtWidgets.QMainWindow):
+class MainUi(QtWidgets. QMainWindow, Ui_Dialog):
     def __init__(self):
         super().__init__()
+        # self.setupUi(self)
         self.init_ui()
         self.left_layers()
         self.right_layers()
         self.emailpage =EmailPage()
+
 
     def init_ui(self):
         # 整体部件
@@ -47,6 +46,10 @@ class MainUi(QtWidgets.QMainWindow):
         self.left_close = QtWidgets.QPushButton("", self)  # 关闭按钮
         self.left_visit = QtWidgets.QPushButton("", self)  # 空白按钮
         self.left_mini = QtWidgets.QPushButton("", self)  # 最小化按钮
+#######################################
+        self.left_close.clicked.connect(self.close_win)
+        self.left_visit.clicked.connect(self.open_email)
+
 
         self.left_label_1 = QtWidgets.QPushButton("每日推荐")
         self.left_label_1.setObjectName('left_label')
@@ -122,11 +125,18 @@ class MainUi(QtWidgets.QMainWindow):
             }
         ''')
 
-        self.left_close.clicked.connect(self.show_emailpage)
-        self.left_visit = QtWidgets.QPushButton("")  # 空白按钮
-        self.left_mini = QtWidgets.QPushButton("")  # 最小化按钮
+        self.left_mini.clicked.connect(self.show_emailpage)
+
     def show_emailpage(self):
         self.emailpage.exec()
+    def close_win(self):
+        self.main_widget.close()
+        print("关闭主窗口")
+    def open_email(self):
+        a=self.setupUi(self)
+        a.exec()
+        print("打开新窗口")
+
     def right_layers(self):
         self.right_bar_widget = QtWidgets.QWidget()  # 右侧顶部搜索框部件
         self.right_bar_layout = QtWidgets.QGridLayout()  # 右侧顶部搜索框网格布局
