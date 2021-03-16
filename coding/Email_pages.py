@@ -70,3 +70,9 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "收件人"))
         self.label_4.setText(_translate("Dialog", "正文"))
         self.label_5.setText(_translate("Dialog", "附件"))
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    demo = Demo()
+    demo.show()
+    sys.exit(app.exec_())
