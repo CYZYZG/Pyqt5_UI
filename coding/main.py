@@ -4,19 +4,36 @@ from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QLabel, QLineEdit, Q
     QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox,QMainWindow
 from PyQt5.QtCore import QCoreApplication
 import sys
+from PyQt5.QtCore import Qt
 import qtawesome
 from PyQt5 import QtCore, QtGui, QtWidgets
+<<<<<<< HEAD
+USER_PWD = { 'la_vie': 'password' }
+=======
 USER_PWD = {
-        'la_vie': 'password'
+        'la_vie': 'password',
+        'la': 'pass'
     }
+>>>>>>> c355e97f673650400607f91818ffed222aafc5a8
 
-class MainUi(QtWidgets. QMainWindow,Ui_Dialog):
+
+class MainUi(QtWidgets. QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.init_ui()
         self.left_layers()
         self.right_layers()
+
+
+    def mousePressEvent(self, event):  # 2 确定鼠标的位置
+        self.start_x = event.x()
+        self.start_y = event.y()
+
+    def mouseMoveEvent(self, event):  # 3  移动鼠标
+        dis_x = event.x() - self.start_x
+        dis_y = event.y() - self.start_y
+        self.move(self.x() + dis_x, self.y() + dis_y)
 
     def init_ui(self):
         # 整体部件
@@ -46,8 +63,8 @@ class MainUi(QtWidgets. QMainWindow,Ui_Dialog):
         self.left_mini = QtWidgets.QPushButton("", self)  # 最小化按钮
 #######################################
         self.left_close.clicked.connect(QCoreApplication.quit)
-        self.left_visit.clicked.connect(self.open_email)
-        self.left_mini.clicked.connect(self.show_emailpage)
+        self.left_visit.clicked.connect(self.newusr_clk)
+        self.left_mini.clicked.connect(self.newusr_clk)
 
         self.left_label_1 = QtWidgets.QPushButton("每日推荐")
         self.left_label_1.setObjectName('left_label')
@@ -122,22 +139,6 @@ class MainUi(QtWidgets. QMainWindow,Ui_Dialog):
                 border-bottom-left-radius:10px;
             }
         ''')
-
-
-
-    def show_emailpage(self):
-        self.emailpage = EmailPage()
-        self.emailpage.exec()
-    def close_win(self):
-        self.main_widget.close()
-        print("关闭主窗口")
-    def open_email(self):
-        print("打开新窗口")
-        self.Dialog1 = QtWidgets.QDialog()
-        self.email_UI = Ui_Dialog()
-        self.email_UI.setupUi(self.Dialog1)
-        self.main_widget.setVisible(False) #隐藏主界面
-        self.Dialog1.show()
 
 
     def right_layers(self):
@@ -356,12 +357,26 @@ class MainUi(QtWidgets. QMainWindow,Ui_Dialog):
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         self.main_layout.setSpacing(0)
 
+    def newusr_clk(self):
+        self.hide()
+        dialog = PreferencesDialog(parent=self)
+        if dialog.exec():
+            pass  # do stuff on success
+        self.show()
 
+class PreferencesDialog(QDialog):
+    def __init__(self, parent=None):
+        super(PreferencesDialog, self).__init__(parent)
 
+        self.email = EmailPage()
+        self.email.show()
+        # self.ui = Ui_Dialog()
+        # self.ui.setupUi(self)
 
 class EmailPage(QDialog):
     def __init__(self):
         super(EmailPage, self).__init__()
+        print('打开3窗口')
         self.signin_user_label = QLabel('Username:', self)
         self.signin_pwd_label = QLabel('Password:', self)
         self.signin_pwd2_label = QLabel('Password:', self)
@@ -427,15 +442,10 @@ class EmailPage(QDialog):
         self.signin_pwd2_line.clear()
 
 
-
-
-
 if __name__ == '__main__':
+
     app = QApplication(sys.argv)
-    # MainWindow = QMainWindow()
+    # 主窗口
     demo = MainUi()
-    # email_UI=Ui_Dialog()
-    # email_UI.setupUi(MainWindow)
-    # demo.left_visit.clicked.connect(MainWindow.show)
     demo.show()
     sys.exit(app.exec_())
