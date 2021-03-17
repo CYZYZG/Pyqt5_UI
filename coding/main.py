@@ -8,13 +8,15 @@ from PyQt5.QtCore import Qt
 import qtawesome
 from PyQt5 import QtCore, QtGui, QtWidgets
 <<<<<<< HEAD
-USER_PWD = { 'la_vie': 'password' }
 =======
 USER_PWD = {
         'la_vie': 'password',
         'la': 'pass'
     }
 >>>>>>> c355e97f673650400607f91818ffed222aafc5a8
+
+USER_PWD = { 'la_vie': 'password' }
+
 
 
 class MainUi(QtWidgets. QMainWindow):
