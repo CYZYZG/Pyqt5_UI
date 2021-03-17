@@ -7,7 +7,8 @@ import sys
 import qtawesome
 from PyQt5 import QtCore, QtGui, QtWidgets
 USER_PWD = {
-        'la_vie': 'password'
+        'la_vie': 'password',
+        'la': 'pass'
     }
 
 class MainUi(QtWidgets. QMainWindow,Ui_Dialog):
