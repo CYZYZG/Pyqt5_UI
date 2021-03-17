@@ -1,8 +1,8 @@
 # coding:utf-8
 from Email_pages import Ui_Dialog
 from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QLabel, QLineEdit, QPushButton, \
-    QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox
-from PyQt5 import QtCore,QtGui,QtWidgets
+    QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox,QMainWindow
+from PyQt5.QtCore import QCoreApplication
 import sys
 import qtawesome
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -10,15 +10,13 @@ USER_PWD = {
         'la_vie': 'password'
     }
 
-class MainUi(QtWidgets. QMainWindow, Ui_Dialog):
+class MainUi(QtWidgets. QMainWindow,Ui_Dialog):
     def __init__(self):
         super().__init__()
-        # self.setupUi(self)
+
         self.init_ui()
         self.left_layers()
         self.right_layers()
-        self.emailpage =EmailPage()
-
 
     def init_ui(self):
         # 整体部件
@@ -47,9 +45,9 @@ class MainUi(QtWidgets. QMainWindow, Ui_Dialog):
         self.left_visit = QtWidgets.QPushButton("", self)  # 空白按钮
         self.left_mini = QtWidgets.QPushButton("", self)  # 最小化按钮
 #######################################
-        self.left_close.clicked.connect(self.close_win)
+        self.left_close.clicked.connect(QCoreApplication.quit)
         self.left_visit.clicked.connect(self.open_email)
-
+        self.left_mini.clicked.connect(self.show_emailpage)
 
         self.left_label_1 = QtWidgets.QPushButton("每日推荐")
         self.left_label_1.setObjectName('left_label')
@@ -125,17 +123,22 @@ class MainUi(QtWidgets. QMainWindow, Ui_Dialog):
             }
         ''')
 
-        self.left_mini.clicked.connect(self.show_emailpage)
+
 
     def show_emailpage(self):
+        self.emailpage = EmailPage()
         self.emailpage.exec()
     def close_win(self):
         self.main_widget.close()
         print("关闭主窗口")
     def open_email(self):
-        a=self.setupUi(self)
-        a.exec()
         print("打开新窗口")
+        self.Dialog1 = QtWidgets.QDialog()
+        self.email_UI = Ui_Dialog()
+        self.email_UI.setupUi(self.Dialog1)
+        self.main_widget.setVisible(False) #隐藏主界面
+        self.Dialog1.show()
+
 
     def right_layers(self):
         self.right_bar_widget = QtWidgets.QWidget()  # 右侧顶部搜索框部件
@@ -355,6 +358,7 @@ class MainUi(QtWidgets. QMainWindow, Ui_Dialog):
 
 
 
+
 class EmailPage(QDialog):
     def __init__(self):
         super(EmailPage, self).__init__()
@@ -428,6 +432,10 @@ class EmailPage(QDialog):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    # MainWindow = QMainWindow()
     demo = MainUi()
+    # email_UI=Ui_Dialog()
+    # email_UI.setupUi(MainWindow)
+    # demo.left_visit.clicked.connect(MainWindow.show)
     demo.show()
     sys.exit(app.exec_())
