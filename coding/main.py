@@ -8,12 +8,6 @@ from PyQt5.QtCore import Qt
 import qtawesome
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-USER_PWD = {
-        'la_vie': 'password',
-        'la': 'pass'
-    }
-
-
 USER_PWD = { 'la_vie': 'password' }
 
 
@@ -25,7 +19,6 @@ class MainUi(QtWidgets. QMainWindow):
         self.init_ui()
         self.left_layers()
         self.right_layers()
-
 
     def mousePressEvent(self, event):  # 2 确定鼠标的位置
         self.start_x = event.x()
@@ -71,6 +64,7 @@ class MainUi(QtWidgets. QMainWindow):
         self.left_label_1.setObjectName('left_label')
         self.left_label_2 = QtWidgets.QPushButton("我的音乐")
         self.left_label_2.setObjectName('left_label')
+
         self.left_label_3 = QtWidgets.QPushButton("联系与帮助")
         self.left_label_3.setObjectName('left_label')
 
@@ -80,6 +74,7 @@ class MainUi(QtWidgets. QMainWindow):
         self.left_button_2.setObjectName('left_button')
         self.left_button_3 = QtWidgets.QPushButton(qtawesome.icon('fa.film', color='white'), "热门MV")
         self.left_button_3.setObjectName('left_button')
+        self.left_button_3.clicked.connect(self.newusr_clk)
         self.left_button_4 = QtWidgets.QPushButton(qtawesome.icon('fa.home', color='white'), "本地音乐")
         self.left_button_4.setObjectName('left_button')
         self.left_button_5 = QtWidgets.QPushButton(qtawesome.icon('fa.download', color='white'), "下载管理")
@@ -360,9 +355,7 @@ class MainUi(QtWidgets. QMainWindow):
 
     def newusr_clk(self):
         self.hide()
-        dialog = PreferencesDialog(parent=self)
-        if dialog.exec():
-            pass  # do stuff on success
+        PreferencesDialog(parent=self)
         self.show()
 
 class PreferencesDialog(QDialog):
@@ -370,7 +363,7 @@ class PreferencesDialog(QDialog):
         super(PreferencesDialog, self).__init__(parent)
 
         self.email = EmailPage()
-        self.email.show()
+        self.email.exec_()
         # self.ui = Ui_Dialog()
         # self.ui.setupUi(self)
 
