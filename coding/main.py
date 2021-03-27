@@ -1,5 +1,5 @@
 # coding:utf-8
-from Email_pages import Ui_Dialog
+from Email_page import Ui_Dialog
 from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QLabel, QLineEdit, QPushButton, \
     QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox,QMainWindow
 from PyQt5.QtCore import QCoreApplication
@@ -355,7 +355,7 @@ class MainUi(QtWidgets. QMainWindow):
 
     def newusr_clk(self):
         self.hide()
-        PreferencesDialog(parent=self)
+        PreferencesDialog2(parent=self)
         self.show()
 
 class PreferencesDialog(QDialog):
@@ -366,6 +366,13 @@ class PreferencesDialog(QDialog):
         self.email.exec_()
         # self.ui = Ui_Dialog()
         # self.ui.setupUi(self)
+
+class PreferencesDialog2(QDialog):
+    def __init__(self, parent=None):
+        super(PreferencesDialog2, self).__init__(parent)
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self)
+        self.exec_()
 
 class EmailPage(QDialog):
     def __init__(self):

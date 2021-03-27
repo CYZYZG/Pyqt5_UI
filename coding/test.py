@@ -1,49 +1,35 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QTextEdit, QPushButton, QMessageBox, QVBoxLayout
-
-
+from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QLabel, QLineEdit, QPushButton, \
+    QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox
 class Demo(QWidget):
     def __init__(self):
         super(Demo, self).__init__()
+        self.resize(300, 100)
 
-        self.is_saved = True                                            # 1
+        self.user_label = QLabel('Username:', self)
+        self.pwd_label = QLabel('Password:', self)
+        self.user_line = QLineEdit(self)
+        self.pwd_line = QLineEdit(self)
+        self.login_button = QPushButton('Log in', self)
+        self.signin_button = QPushButton('Sign in', self)
 
-        self.textedit = QTextEdit(self)                                 # 2
-        self.textedit.textChanged.connect(self.on_textchanged_func)
-
-        self.button = QPushButton('Save', self)                         # 3
-        self.button.clicked.connect(self.on_clicked_func)
-
+        self.grid_layout = QGridLayout()
+        self.h_layout = QHBoxLayout()
         self.v_layout = QVBoxLayout()
-        self.v_layout.addWidget(self.textedit)
-        self.v_layout.addWidget(self.button)
+
+        self.layout_init()
+
+    def layout_init(self):
+        self.grid_layout.addWidget(self.user_label, 0, 0, 1, 1)
+        self.grid_layout.addWidget(self.user_line, 0, 1, 1, 1)
+        self.grid_layout.addWidget(self.pwd_label, 1, 0, 1, 1)
+        self.grid_layout.addWidget(self.pwd_line, 1, 1, 1, 1)
+        self.h_layout.addWidget(self.login_button)
+        self.h_layout.addWidget(self.signin_button)
+        self.v_layout.addLayout(self.grid_layout)
+        self.v_layout.addLayout(self.h_layout)
+
         self.setLayout(self.v_layout)
-
-    def on_textchanged_func(self):
-        if self.textedit.toPlainText():
-            self.is_saved = False
-        else:
-            self.is_saved = True
-
-    def on_clicked_func(self):
-        self.save_func(self.textedit.toPlainText())
-        self.is_saved = True
-
-    def save_func(self, text):
-        with open('saved.txt', 'w') as f:
-            f.write(text)
-
-    # def closeEvent(self, QCloseEvent):                                  # 4
-    #     if not self.is_saved:
-    #         choice = QMessageBox.question(self, '', 'Do you want to save the text?',
-    #                                       QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
-    #         if choice == QMessageBox.Yes:
-    #             self.save_func(self.textedit.toPlainText())
-    #             QCloseEvent.accept()
-    #         elif choice == QMessageBox.No:
-    #             QCloseEvent.accept()
-    #         else:
-    #             QCloseEvent.ignore()
 
 
 if __name__ == '__main__':
